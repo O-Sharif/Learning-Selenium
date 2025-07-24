@@ -51,22 +51,35 @@ if __name__ == "__main__":
 """
 
 
+
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-def automate_login(email, password):
+def open_browser():
     driver = webdriver.Chrome()
     driver.get('https://mental-health-check-nine.vercel.app/')
     sleep(10)
+    return driver
+
+
+def signin_Button_click(driver):
     button = driver.find_element(By.XPATH, "//button[@class='justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 flex items-center gap-2']")
     button.click()
     sleep(10)
+
+
+def automate_login(driver, email, password):
     driver.find_element(By.ID, "email").send_keys(email)
     driver.find_element(By.ID, "password").send_keys(password)
     driver.find_element(By.XPATH, "//button[@type='submit']").click()
     sleep(10)
+
+def main():
+    driver = open_browser()
+    signin_Button_click(driver)
+    automate_login(driver, "irontester80@gmail.com", "12345678")
     driver.quit()
 
-# Example usage:
-automate_login("irontester80@gmail.com", "12345678")
+if __name__ == "__main__":
+    main()
