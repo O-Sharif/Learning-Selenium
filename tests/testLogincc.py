@@ -2,6 +2,7 @@
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from datetime import datetime
 
 
 def open_browser():
@@ -15,11 +16,31 @@ def login(driver,email, password):
     driver.find_element(By.ID, 'password').send_keys(password)
     driver.find_element(By.XPATH, '//button[@type="submit"]').click()
     sleep(10)  # Wait for login to complete
+    from random import randint
+
+def upload_new_call(driver):
+    call_records = driver.find_element(By.XPATH,'//span[text()="Upload New Call"]')
+    call_records.click()
+    sleep(5)  # Wait for the page to load
+    print("Upload New Call button clicked successfully.")
+
+    today = datetime.now().strftime("%a %b %d %Y")
+    call_name = f"Test Call - {today}"
+
+    call_name_input = driver.find_element(By.ID, 'callName')
+    call_name_input.clear()  # Clear any existing text in the input field
+    sleep(2)  # Wait for the input field to be ready
+    call_name_input.send_keys(call_name)
+    sleep(5)
+
+
+
 
 def main():
     driver = open_browser()
-    login(driver,"random@zvvzuv.com", "Pa$$w0rd!")
+    login(driver,"tike@bltiwd.com", "Pa$$w0rd!")
     print("Browser opened and closed successfully.")
+    upload_new_call(driver)
     driver.quit()
 
 if __name__ == "__main__": # This ensures the script runs only when executed directly
