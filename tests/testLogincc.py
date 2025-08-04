@@ -1,4 +1,4 @@
-
+from random import choice
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -32,6 +32,15 @@ def upload_new_call(driver):
     sleep(2)  # Wait for the input field to be ready
     call_name_input.send_keys(call_name)
     sleep(5)
+
+    agent_click_button = driver.find_element(By.CSS_SELECTOR, 'button[aria-label="Filter by agent"]')
+    agent_click_button.click()
+    sleep(5)
+
+    first_option = driver.find_element(By.CSS_SELECTOR, 'div[id="radix-:r2c:"]')
+    first_option.click()
+    sleep(5)
+
 
 
 
