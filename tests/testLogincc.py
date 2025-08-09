@@ -1,8 +1,11 @@
-from random import choice
+
+
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import datetime
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 def open_browser():
@@ -16,9 +19,11 @@ def login(driver,email, password):
     driver.find_element(By.ID, 'password').send_keys(password)
     driver.find_element(By.XPATH, '//button[@type="submit"]').click()
     sleep(10)  # Wait for login to complete
-    from random import randint
 
-def upload_new_call(driver):
+
+def upload_new_call(driver, ):
+    wait = WebDriverWait(driver, 10)
+
     call_records = driver.find_element(By.XPATH,'//span[text()="Upload New Call"]')
     call_records.click()
     sleep(5)  # Wait for the page to load
@@ -33,14 +38,22 @@ def upload_new_call(driver):
     call_name_input.send_keys(call_name)
     sleep(5)
 
-    agent_click_button = driver.find_element(By.CSS_SELECTOR, 'button[aria-label="Filter by agent"]')
-    agent_click_button.click()
-    sleep(5)
+    #drop_down = driver.find_element(By.XPATH,"(//*[@role='combobox'])[1]")
+    #drop_down.click()
+    #sleep(2)
 
-    first_option = driver.find_element(By.CSS_SELECTOR, 'div[id="radix-:r2c:"]')
-    first_option.click()
-    sleep(5)
+    drop_down = wait.until(EC.element_to_be_clickable((By.XPATH, "(//*[@role='combobox'])[1]")))
+    drop_down.click()
 
+    search = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='Search agents...']")))
+    search.clear()
+    search.send_keys("iron")
+
+    sleep(5)  # Wait for the search results to load
+    option = wait.until(EC.element_to_be_clickable((
+        By.XPATH, "//*[@data-value='iron Hammer ironhammer1212@gmail.com none']"
+    )))
+    option.click()
 
 
 
