@@ -28,5 +28,6 @@ def main():
     sleep(3)
     driver.quit()
 
+
 if __name__ == "__main__":
     main()
